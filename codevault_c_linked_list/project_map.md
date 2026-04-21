@@ -1,5 +1,7 @@
 # Linked List in C: Project Map
 
-1. Learn Functions in C.
-2. Learn to Return Multiple Values from a Function.
-3. Learn C Arrays.
+## Review C Concepts  
+1. argc and argv
+2. Functions
+3. Return Multiple Values from a Function.
+4. Arrays.
