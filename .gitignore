@@ -53,3 +53,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Temporary Files/Misc
+.DS_Store
+.swp
+.swo
