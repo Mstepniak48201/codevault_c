@@ -16,9 +16,10 @@ int main(int argc, char *argv[])
   }
 
   printf("The value of the tenth number in the Fibonacci sequence is: %d\n", n2);
+  return 0;
 }
 
-void fibonacci();:q
+//void fibonacci();:q
 
 
 
