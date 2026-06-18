@@ -1,5 +1,14 @@
 #Understanding argc and argv
 
+## Vocabulary  
+- *null-terminated character array*: A string in C. This is an array of chars terminated by the null character "\0". From Geeks for Geeks:
+  - The null character "\0" marks the end of the string.
+  - C does not have a built-in string data type.
+  - Strings are implemented using arrays of chars.
+  
+  - For example, the string "Geeks" would be like so: {"G", "e", "e", "k", "s" "\0"}
+
+
 ```
 // The following code does nothing.
 #include <stdio.h>
