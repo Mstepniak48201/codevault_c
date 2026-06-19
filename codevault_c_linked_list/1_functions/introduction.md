@@ -79,10 +79,40 @@ n2 = n1 + n2
 n1 = temp
 ```
 
-* LEFT OFF AT 3:23
+Now suppose we want the 8th number instead of the 10th? I'm guessing he wants to spin it off into a function that gets called in main().
 
+```
+#include <stdio.h>
+#include <stdlib.h>
 
-### fibonacci.c
+int main(int argc, char *argv[])
+{
+  fibo(8);
+}
+
+void fibo(int num)
+{
+  int n1 = 0;
+  int n2 = 1;
+  int count = num - 2; 
+  int temp;
+
+  int i;
+  for (i = 0; i < count; i++)
+  {
+    temp = n2;
+    n2 = n1 + n2;
+    n1 = temp;
+  }
+  
+  printf("The %d number in the sequence is %d\n", num, n2);
+}
+```
+
+### Tutorial version
+
+I basically wrote the same thing in a slightly different style.
+
 ```
 #include <stdio.h>  
 #include <stdlib.h>  
