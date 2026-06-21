@@ -1,4 +1,6 @@
-# Return Value of a Function
+# Return Values from a Function
+
+## Return a Value from a Function
 
 A function name is preceded by its return type: int, void, etc. "void" indicates that the function doesn't have a return value.
 
@@ -53,3 +55,5 @@ int main(int argc, char *argv[])
   return 0;
 }
 ```
+
+## Returning Multiple Values from a Function
