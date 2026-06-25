@@ -72,7 +72,7 @@ int sum(int count, ...)
   va_start(args, count);
 
   // Sum variable
-  int s = 0;
+  int sum = 0;
 
   // Iterate over the args list
   int i;
@@ -80,12 +80,12 @@ int sum(int count, ...)
   {
     // Set variable x equal to va_arg(args, int) 
     int x = va_arg(args, int);
-    s += x;
+    sum += x;
   }
 
   // Call va_end().
   va_end();
-  return s;
+  return sum;
 }
 ```
 
@@ -111,7 +111,7 @@ int sum(int count, ...)
 ```
 while(x != NULL)
 {
-  s += x;
+  sum += x;
   x = va_arg(args, int);
 }
 ```
@@ -128,10 +128,10 @@ int sum2(int n, ...)
   va_list = args;
 
   // As `n` is the first argument pased to the function, it must be the second parameter passed to `va_start()`.
-  va_start(args, count);
+  va_start(args, n);
 
-  // Initialize s = n.
-  int s = n;
+  // Initialize sum = n.
+  int sum = n;
 
   int i;
   
@@ -139,12 +139,12 @@ int sum2(int n, ...)
   int x = va_arg(args, int);
   while (x != NULL)
   {
-    s += x;
+    sum += x;
     x = va_arg(args, int);
   }
 
   va_end();
-  return s; 
+  return sum; 
 }
 ```
 
