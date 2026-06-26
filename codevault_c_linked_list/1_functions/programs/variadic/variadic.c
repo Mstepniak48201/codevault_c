@@ -41,7 +41,7 @@ int sum(int count, ...)
   return sum;
 }
 
-// Using va_list in a different way: sentinal value instead of the `count` parameter.
+// Using va_list in a different way: sentinel value instead of the `count` parameter.
 // The method in the tutorial discussed using ints and terminating with NULL, but this could be a problem,
 // since NULL = 0: a zero value passed to the function could cause it to exit earlier than intended.
 // While there are certainly ways around this, I chose to adapt it to, instead of returning the sum of ints,
