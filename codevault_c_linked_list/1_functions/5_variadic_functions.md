@@ -91,6 +91,8 @@ int sum(int count, ...)
 
 # Is There a Work-Around to Passing the `count` variable as the First Argument to `va_start()`?
 
+In programs I adapted the `sum2()` function that is described below to, instead of summing ints, print out a sequence of chars. It's in ./programs/variadic/variadic.c - the notes are in the comments for the function `char()`.
+
 - Instead of passing in the number of arguments, pass in `NULL` and use a while loop.
 
 - This is not safe to use for integers: if  0 is passed in, the program can terminate early since NULL == 0.
