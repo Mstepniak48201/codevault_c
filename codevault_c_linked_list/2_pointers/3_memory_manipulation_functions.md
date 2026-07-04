@@ -1,4 +1,4 @@
-# Memory Manipulation Functions: `memcmp()` | `memcpy()` | `memset()`
+# Memory Manipulation Functions: `memcmp()` | `memcpy()` | `memset()` | `memchr()`
 
 **Starter Code**  
 ```
@@ -21,9 +21,11 @@ int main(int argc, char *argv[])
 
 ## `memcmp()`
 
+- Use Case: compare two arrays, find out if they are equal and if not: `is arr1[0] > | < arr2[0]?`
+- Parameters: void pointer to array, void pointer to array, depth of comparison (*size of the smallest array*)
+
 - `memcmp()`: is similar to `strcmp()` in that it compares strings, but it takes **void pointers** as an input, and doesn't give any warning to indicate if something else has been passed in.
 
-- Parameters: void pointer to array, void pointer to array, depth of comparison (*size of the smallest array*)
 
   `memcmp(arr1, arr2, n * sizeof(data_type))`
 
@@ -79,12 +81,13 @@ printf("arr1[] = {%d, %d}\n", arr1[0], arr1[1]);
 ```
 
 ## `memset()`
-- The section on `memset()` is sparse, I suspect, because this is an introduction to the concept. `memset()` will come up again and again.
 - Use Case: zeroing out arrays -> initializing structs, clearing buffers, preparing arrays for reuse
+- Parameters: void pointer to array, value, depth to set, in bytes
+
+- The section on `memset()` is sparse, I suspect, because this is an introduction to the concept. `memset()` will come up again and again.
 - There will be more advanced use cases, and it sounds like `memset()` is pretty core to C.
 
 - Sets every single byte in an array to a value
-- Parameters: void pointer to array, value, depth to set, in bytes
 
 - This one gets tricky, as it has unexpected interactions with printf
 
@@ -93,4 +96,29 @@ int arr1[] = {3, 4};
 int arr2[] = {1, 2};
 
 memcpy(arr1, 0, 2 * sizeof(int));
+```
+
+## `memchr()`
+- Use Case: find a certain byte in an array
+- Parameters: `array, byte to find, depth * sizeof(data_type)`
+
+- **Return Value**:  
+  - pointer to the place in memory where that byte resides
+
+
+```
+int arr1[] = {3, 4};
+int arr2[] = {1, 2};
+
+// Search for the byte with a value of 0 -> It will be the first byte examined:
+// 3 is an int, an int is 4 bytes, and 3 -> 0 0 0 3
+// If I swap the 0 out for a 1, though, output -> "Nope, no byte"
+if (memchr(arr1, 0, 2 * sizeof(int)) != 2)
+{
+  printf("Found the byte!\n");
+}
+else
+{
+  printf("Nope, no byte\n");
+}
 ```
