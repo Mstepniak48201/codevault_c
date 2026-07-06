@@ -20,6 +20,8 @@
 
 - But when the original array's first value is printed from within `main()`, the value is also altered. This means that the scope was not local to the function. It was not a copy of `arr` being altered, but the original, which means that the parameter `int arr[]` was pointing to the place in memory where the actual array lives.
 
+- ***Takeaway***: Just use a pointer like so: `int sum(int *arr, int count)`
+
 ```
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,3 +48,23 @@ int main(int argc, char *argv[])
   return 0;
 }
 ```
+
+## Another proof, with sizeof()
+
+- Add the following line to `sum()`, right before the return statement:
+    |  
+  `printf("Size of arr from sum() function: %llu\n", sizeof(arr));`
+
+- And this line to `main()`, right before the return statement:
+    |  
+  `printf("Size of arr from main(): %llu\n", sizeof(arr));`
+
+**Printout**:
+Size of arr from sum() function: 8  
+Size of arr from main(): 28  
+
+- The reason why the size of `arr` when printed from the `sum()` function is 8 is because it is a pointer. Pointers are 8 bytes.
+
+- The reason why the size of `arr` when printed from `main()` is 28 is because it is an array of 7 ints, and each int is 4 bytes.
+
+
