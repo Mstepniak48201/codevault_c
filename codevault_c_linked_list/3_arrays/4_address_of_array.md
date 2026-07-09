@@ -76,7 +76,140 @@ printf("Address: %p\n", str + 1);
 printf("Address: %p\n", &str + 1);
 ```
 
+# Address of an Array: In-Depth
+
+Starter Code:  
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (int argc, char * argv[])
+{
+  int arr[] = {5, 22, 17};
+
+  return 0;
+}
+```
+
+## Intro
+- Clarify: take a look at memory structure when working with arrays
+
+- Start with array of ints: create a function that prints every int.
+
+**Write the Function and see how close I am**:  
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+void print_arr(int *arr, size_t count)
+{
+  int i;
+  for (i = 0; i < count; i++)  
+  {
+    printf(arr[i]);
+  }
+}
+
+int main (int argc, char * argv[])
+{
+  int arr[] = {5, 22, 17};
+  size_t count = sizeof(arr);
+  print_arr(arr, count);
+
+  return 0;
+}
+```
+
+## Passing a single element to a function that expects a pointer to array
+
+```
+int main(int argc, char *argv[])
+{
+  int el = 22;
+
+  // Passing in &el, the address reference to int el
+  // Within print_arr(), &el will be processed as `arr[i]`, in this case `arr[0]`
+  // And `arr[0]` == *arr, dereferencing the referenced variable and accessing the value, 22.
+  print_arr(&el, 1);
+  return 0;
+}
+```
+
+## Printing an Array of Strings
+
+- Suppose that instead of an array of ints, there is an array of strings, like so: `{"example", "another one", "doing great!"}`
+
+- Now there is an issue of how to declare the array of strings, and how to pass it to the function:  
+  - The variable `arr` is an array of `char *`. When it is passed to the function, it decays to an array of `char **`
+  - The address of the first element of that first element is of type `char **`.
+
+**Takeaway**: `char *arr[]` is an *array of pointers*. This means that:
+  - When it is passed to a function, it will decay to a pointer to the first element, which is of type `char *`
+  - Therefore, a pointer to an element of type `char *` is a double pointer: `char **`
+  - `char **` is a pointer to the first pointer (`char *`) that points to the first character in the first element in the array.
+  - When dereferenced as `arr[0]` in the first iteration of the for loop, two things happen:
+    - `**arr` is dereferenced to `*arr`, giving access to the address of the first element of arr, string "example" is in memory
+    - `printf()`, when given `%s` as a parameter, expects a value of type `char *`:
+      - `printf()` iterates over the null-terminated string stored at the address at `*arr[i]` and prints it to the console.
+
+```
+// Pass the array as a double pointer.
+void print_arr(char **arr, size_t size)
+{
+  int i;
+  for (i = 0; i < num; i++) 
+  {
+    // arr[0] == *arr -> "example"
+    printf("%s\n", arr[i]);
+  }
+}
+
+int main(int argc, char *argv[])
+{
+  // Declare as a char * array.
+  char *arr = {"example", "another one", "doing great!"};
+
+  // arr is an array of pointers to char, it decays to a pointer to the first pointer (which points to the first character).
+  print_arr(arr, 3);
+
+  return 0;
+}
+```
+
+- Now, can I do the same trick where I print a single string as I did with the single int element?
 
 
+```
+int main(int argc, char *argv[])
+{
+  char *el = "example";
 
+  // Passing in &el, the address reference to int el
+  // Within print_arr(), &el will be processed as `arr[i]`, in this case `arr[0]`
+  // And `arr[0]` == *arr, dereferencing the referenced variable and accessing the value, 22.
+  print_arr(&el, 1);
+  return 0;
+}
+```
+
+## The Stack
+
+Midway through the test on whether it is possible to print out a single element stored in a `char *` variable, he begins to discuss the stack, saying Remember these are not actually stored in the stack, we are storing them in the read-only memory for strings. But we have an array of character pointers that point to a place in memory that just stores character after character. 
+
+In memory, how does this look like: if this was the beginning of the stack, 
+
+```
+// -- begin stack
+// ... other things between the beginning and the array
+// array - What are we storing here, exactly?
+// pointers to strings
+// 8 byte - char* - arr[0] -> to read only memory, not in the stack
+// 8 byte - char* - arr[1] -> to read only memory, not in the stack
+// 8 byte - char* - arr[2] -> to read only memory, not in the stack
+// ... other things between array and end of stack
+//  end of stack
+```
+
+Leaving off at 9:30
 
