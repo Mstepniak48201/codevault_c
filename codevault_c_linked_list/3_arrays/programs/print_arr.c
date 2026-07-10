@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   int arr[] = {5, 22, 17};
   size_t size = sizeof(arr) / sizeof(arr[0]);
 
-  char *char_arr[] = {"example", "killing it bro!", "doing great!"};
+  char *char_arr[] = {"element 1", "element 2", "element 3"};
 
   char *el = "my element";
 

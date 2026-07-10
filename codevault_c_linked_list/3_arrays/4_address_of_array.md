@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 - Now suppose that instead of an int value there is an array of characters like so:
 
 ```
-// 16 character string.
+// 1"6 character string.
 char str[16] = "Example string";
 
 printf("Value: %s\n", str);
@@ -195,21 +195,84 @@ int main(int argc, char *argv[])
 
 ## The Stack
 
-Midway through the test on whether it is possible to print out a single element stored in a `char *` variable, he begins to discuss the stack, saying Remember these are not actually stored in the stack, we are storing them in the read-only memory for strings. But we have an array of character pointers that point to a place in memory that just stores character after character. 
+Midway through the test on whether it is possible to print out a single element stored in a `char *` variable, he begins to discuss the stack, saying:
 
-In memory, how does this look like: if this was the beginning of the stack, 
+"Remember these are not actually stored in the stack, we are storing them in the read-only memory for strings. But we have an array of character pointers that point to a place in memory that just stores character after character.
+
+In memory, how does this look like: if this was the beginning of the stack:"
 
 ```
+// This is a theoretical stack. The current structure uses read-only memory, not on the stack.
+
 // -- begin stack
 // ... other things between the beginning and the array
-// array - What are we storing here, exactly?
-// pointers to strings
-// 8 byte - char* - arr[0] -> to read only memory, not in the stack
-// 8 byte - char* - arr[1] -> to read only memory, not in the stack
-// 8 byte - char* - arr[2] -> to read only memory, not in the stack
+// arr[] - What are we storing here, exactly? --> Pointers to strings:
+// 8 byte - char* - arr[0]
+// 8 byte - char* - arr[1]
+// 8 byte - char* - arr[2]
 // ... other things between array and end of stack
 //  end of stack
 ```
 
-Leaving off at 9:30
+Now suppose the following:
+```
+int main(int argc, char *argv[])
+{
+  char el[7] = "example";
+
+  print_arr(&el, 1);
+  return 0;
+}
+```
+The above does not work -> it seems like it should:  
+  - `el` is an identifier that decays to a pointer to the first char in "example".
+  - Does the `&` address operator indicate that this is a double pointer passed to the function?
+    |  
+    No! `el` and `&el` are the same thing.
+
+**Trying to Make Sense of it**:  
+  - Is an array of strings multidimensional char  array, and this is a single dimension?
+
+  - `char el[7] = "example"`  
+      |  
+      `el` -> decays to a pointer to `el[0]` -> "e".  
+      |  
+      Why is &el not of type `char **`? Why isn't it a double pointer?
+
+  - There doesn't seem to be anything else to point to.  
+    |  
+    `el` has decayed to a pointer to the first character in the string "example"
+    |  
+    Since `el` is the same exact thing as `&el`, the only way to make this a double pointer would be `&&el`.  
+    |  
+    And this doesn't make any sense: `&el[0]` is a value that doesn't have a place in memory. It isn't stored anywhere.  
+    |       |  
+    |       `&el` is just being passed to the function! This isn't a variable inside memory.  
+    |  
+    Therefore, there is no address to reference!
+
+**So, Passing `&el` when `char el[7] = "exampele"` DOESN'T WORK.**  
+**How can it be made to work??**  
+- It must be stored in a variable, and have an actual address where it lives in memory, like so:
+
+```
+int main(int argc, char *argv[])
+{
+  char el[7] = "example";
+  char *ref = &el[0];
+
+  print_array(&ref, 1);
+  return 0;
+}
+```
+
+- Now what happens? -->
+  - `&ref` --> references `ref`, which is an address --> which references el[0]
+  - So when `print_array()` dereferences the double pointer, it passes `*el` to `printf()`
+  - `printf()` expects a pointer to char, as `%s` is the parameter, and it prints the entire string: "example".
+
+**Takeaways**  
+* Arrays are a continguous place in mememory where multiples of the same type are stored.
+
+* If I need to get a reference to the place in memory at which an array is stored, I have to do that myself. I won't exist without being set equal to a variable.
 
